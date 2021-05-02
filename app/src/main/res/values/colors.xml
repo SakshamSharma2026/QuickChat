@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#422FFA</color>
+    <color name="colorPrimaryVariant">#403d3d</color>
+    <color name="colorAccent">#c2bdbf</color>
+    <color name="colorPrimaryDark">#4eae3a</color>
+    <color name="green">#4eae3a</color>
+    <color name="lightblue">#D8ACDFEF</color>
+    <color name="blue">#006AFF</color>
+    <color name="greenn">#39C3AE</color>
+    <color name="blue2">#5DBCE8</color>
+    <color name="darkblue">#1B262C</color>
+    <color name="purple">#3F51B5</color>
+    <color name="purple2">#000C5D</color>
+    <color name="gra_tt">#4facfe</color>
+    <color name="gra_tt2">#00f2fe</color>
+    <color name="gray">#10808080</color>
+    <color name="red">#FF0000</color>
+    <color name="gray2">#80808080</color>
+    <color name="gray3">#EFEFEF</color>
+    <color name="limegreen">#32CD32</color>
+    <color name="gradientOrange">#FF416C</color>
+    <color name="gradientViolet">#8A52E9</color>
+    <color name="gradientLightYellow">#FFA72F</color>
+    <color name="gradientLightOrange">#FF641A</color>
+    <color name="gradientLightYellow2">#FFC92B</color>
+    <color name="gradientLightOrange2">#FF7765</color>
+    <color name="gradientOrange3">#F7A23C</color>
+    <color name="gradientLightBlue">#D1EDF2</color>
+    <color name="gradientLightGreen">#21E8AC</color>
+    <color name="background">#2e2a38</color>
+    <!--colors for button style-->
+    <color name="gradient_start_color">#2342D8</color>
+    <color name="gradient_end_color">#18a3fe</color>
+
+    <!-- Color for tab-->
+
+    <color name="tab_indicator_gray">#c0c0c0</color>
+    <color name="intro_desc_color">#656565</color>
+
+
+    <color name="filter_label_normal">#8A8889</color>
+    <color name="filter_label_selected">#221F20</color>
+</resources>
