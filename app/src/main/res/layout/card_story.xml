@@ -1,0 +1,128 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:layout_alignParentStart="true"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/button_head_card_parent"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:id="@+id/button_click_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/button_body_card_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_centerInParent="true"
+                app:cardBackgroundColor="#ffffff"
+                app:cardCornerRadius="39dp"
+                app:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:clipToPadding="false"
+                    android:layout_height="match_parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/button_image_card_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="4dp"
+                        android:layout_centerInParent="true"
+                        app:cardCornerRadius="33dp"
+                        app:cardBackgroundColor="@null"
+                        app:cardElevation="0dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/button_image"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:civ_border_width="1dp"
+                                android:layout_centerInParent="true"
+                                app:civ_border_color="#79808080"/>
+
+
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/item_content_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_head_card_parent"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/story_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Story"
+            android:textColor="#131313"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/story_username"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="#787878"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/gray"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        />
+</RelativeLayout>
+
+
+
+

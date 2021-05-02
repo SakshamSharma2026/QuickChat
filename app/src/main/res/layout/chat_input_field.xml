@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom">
+
+    <RelativeLayout
+        android:id="@+id/item_parent"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_centerHorizontal="true"
+        android:minHeight="55dp">
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_card_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:minHeight="55dp"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/item_send_container"
+            app:cardBackgroundColor="#D7EFEEEC"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_toStartOf="@id/item_send_container"
+                android:layout_height="wrap_content">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/item_emoji_icon_container"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="@color/blue"
+                    app:cardCornerRadius="40dp"
+                    >
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="10dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:id="@+id/emoji_layout"
+                        android:paddingEnd="10dp"
+                        android:layout_gravity="bottom">
+
+                        <ImageView
+                            android:id="@+id/item_emoji_icon"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_gallery"
+                            android:layout_centerVertical="true"
+                            />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/item_input_card_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_toEndOf="@+id/item_emoji_icon_container"
+                    app:cardElevation="0dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/item_input"
+                            android:layout_centerInParent="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:background="#D7EFEEEC"
+                            android:gravity="center_vertical"
+                            android:hint="Type here."
+                            android:maxLines="4"
+                            android:inputType="text"
+                            android:minHeight="36dp"
+                            android:paddingStart="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="5dp"
+                            android:scrollbars="vertical"
+                            android:textColor="#262626"
+                            android:textColorHint="#8C8B89"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:id="@+id/item_send_container"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            app:cardBackgroundColor="@color/blue"
+            app:cardCornerRadius="40dp"
+            >
+            <RelativeLayout
+                android:id="@+id/item_send_icon_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="bottom"
+                android:background="?selectableItemBackgroundBorderless"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/item_send_icon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_send_black_24dp"
+                    app:tint="@color/white"
+                    />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

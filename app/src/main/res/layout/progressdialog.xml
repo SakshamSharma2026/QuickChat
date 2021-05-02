@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:padding="20dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/input_feild_border"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
+    <ProgressBar
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:indeterminate="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/progress_circular"
+        android:indeterminateTint="#FC808080"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registering..."
+        android:textSize="18sp"
+        android:id="@+id/loading_text"
+        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/progress_circular"
+        android:textColor="@color/black"
+        />
+
+</RelativeLayout>

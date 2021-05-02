@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/gray3"
+        android:layout_height="match_parent">
+        <com.zolad.zoominimageview.ZoomInImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionName="Image"
+            android:layout_centerInParent="true"
+            android:id="@+id/fullscreen_view"
+            />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

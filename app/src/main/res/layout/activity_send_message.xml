@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activites.SendMessageActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:elevation="10dp"
+        android:id="@+id/appbar"
+        android:padding="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:elevation="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_cornes">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/backbtn"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_arrow_back_black_24dp"
+                    android:layout_centerVertical="true"
+                    />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/button_image"
+                    android:layout_width="40dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_height="40dp"
+                    app:civ_border_color="@color/gray3"
+                    app:civ_border_width="1dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/backbtn" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/username"
+                    android:textSize="14sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/button_image"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/medium"
+                    android:textColor="@color/black"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:text="online"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/button_image"
+                    android:layout_below="@id/username"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/light"
+                    android:textColor="@color/green"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    app:tint="#DD808080"
+                    android:background="?selectableItemBackground"
+                    android:src="@drawable/ic_videocam_black_24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_centerVertical="true"
+                    />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chatrecycler"
+        android:layout_above="@+id/inputFieldItem"
+        android:layout_below="@id/appbar"
+        android:layout_centerHorizontal="true"
+        android:overScrollMode="never"
+        android:layout_marginTop="10dp"
+        />
+
+
+    <include
+        android:id="@+id/inputFieldItem"
+        layout="@layout/chat_input_field"
+        android:layout_width="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+
+</RelativeLayout>
