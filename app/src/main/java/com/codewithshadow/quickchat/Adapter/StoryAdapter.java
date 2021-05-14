@@ -1,8 +1,8 @@
 package com.codewithshadow.quickchat.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.codewithshadow.quickchat.Activites.AddStoryActivity;
 import com.codewithshadow.quickchat.Models.StoryModel;
 import com.codewithshadow.quickchat.R;
@@ -28,18 +26,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.List;
-
+import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder> {
-    private Context aCtx;
-    private List<StoryModel> list;
+    final private Context aCtx;
+    final private List<StoryModel> list;
     AppSharedPreferences appSharedPreferences;
 
-    public StoryAdapter(Context aCtx, List<StoryModel> list)
-    {
+    public StoryAdapter(Context aCtx, List<StoryModel> list) {
         this.aCtx=aCtx;
         this.list=list;
 
@@ -48,16 +44,14 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder
     @NonNull
     @Override
     public StoryAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType==0)
-        {
-            View view = LayoutInflater.from(aCtx).inflate(R.layout.card_mystory, parent, false);
-            return new StoryAdapter.MyViewHolder(view);
+        View view;
+        if (viewType==0) {
+            view = LayoutInflater.from(aCtx).inflate(R.layout.card_mystory, parent, false);
         }
-        else
-        {
-            View view = LayoutInflater.from(aCtx).inflate(R.layout.card_story, parent, false);
-            return new StoryAdapter.MyViewHolder(view);
+        else {
+            view = LayoutInflater.from(aCtx).inflate(R.layout.card_story, parent, false);
         }
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -66,28 +60,21 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder
         appSharedPreferences = new AppSharedPreferences(aCtx);
         userInfo(holder, model.getUserId(),position);
 
-        if (holder.getAdapterPosition()!=0)
-        {
-            seenstory(holder,model.getUserId());
+        if (holder.getAdapterPosition()!=0) {
+            seenStory(holder,model.getUserId());
         }
-        if (holder.getAdapterPosition()==0)
-        {
-            mystory(holder.addstory_text,holder.story_plus,false,holder);
+        if (holder.getAdapterPosition()==0) {
+            myStory(holder.addStory_text,holder.story_plus,false,holder);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.getAdapterPosition()==0)
-                {
-                    mystory(holder.addstory_text,holder.story_plus,true,holder);
-                }
-                else
-                {
-                    Intent intent = new Intent(aCtx, StoryActivity.class);
-                    intent.putExtra("userid",model.getUserId());
-                    aCtx.startActivity(intent);
-                }
+        holder.itemView.setOnClickListener(view -> {
+            if (holder.getAdapterPosition()==0) {
+                myStory(holder.addStory_text,holder.story_plus,true,holder);
+            }
+            else {
+                Intent intent = new Intent(aCtx, StoryActivity.class);
+                intent.putExtra("userid",model.getUserId());
+                aCtx.startActivity(intent);
             }
         });
 
@@ -100,8 +87,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder
 
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView story_username,addstory_text;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView story_username,addStory_text;
         ImageView story_plus;
         CircleImageView story_photo;
         RelativeLayout story_photo_seen_layout;
@@ -111,7 +98,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             story_username = itemView.findViewById(R.id.story_username);
-            addstory_text = itemView.findViewById(R.id.mystorytext);
+            addStory_text = itemView.findViewById(R.id.mystorytext);
             story_plus = itemView.findViewById(R.id.add_story);
             story_photo = itemView.findViewById(R.id.button_image);
             story_photo_seen_layout = itemView.findViewById(R.id.button_click_parent);
@@ -140,14 +127,11 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String name = snapshot.child("name").getValue(String.class);
-                    String img  =snapshot.child("imgurl").getValue(String.class);
-//                   Glide.with(aCtx).load(img).into(holder.story_photo);
+                    String img  =snapshot.child("imgUrl").getValue(String.class);
                     UniversalImageLoderClass.setImage(img,holder.story_photo,null);
 
-                    if(position !=0)
-                    {
+                    if(position !=0) {
                           UniversalImageLoderClass.setImage(img,holder.story_photo,null);
-//                        Glide.with(aCtx).load(img).into(holder.story_photo);
                         holder.story_username.setText(name);
                     }
                 }
@@ -157,26 +141,22 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder
 
                 }
             });
-/*//            holder.story_photo_seen_layout.setBackground(aCtx.getResources().getDrawable(R.drawable.uigitdev_elements_profile_picture_gradient));
-//            UniversalImageLoderClass.setImage(appSharedPreferences.getImgUrl(),holder.story_photo,null);
-//            holder.story_username.setText(appSharedPreferences.getUserName());*/
-
     }
 
 
-    private void mystory(TextView textView, ImageView imageView, boolean click,MyViewHolder holder)
-    {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Story").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    private void myStory(TextView textView, ImageView imageView, boolean click,MyViewHolder holder) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Story").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int count = 0;
-                long timecurrent = System.currentTimeMillis();
+                long timeCurrent = System.currentTimeMillis();
                 for (DataSnapshot snap : snapshot.getChildren())
                 {
                     StoryModel storyModel = snap.getValue(StoryModel.class);
-                    if (timecurrent>storyModel.getTimestart() && timecurrent < storyModel.getTimeend())
+                    assert storyModel != null;
+                    if (timeCurrent>storyModel.getTimeStart() && timeCurrent < storyModel.getTimeEnd())
                     {
                         count++;
                     }
@@ -188,23 +168,17 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder
                     {
                         AlertDialog alertDialog = new AlertDialog.Builder(aCtx).create();
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "View Story",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent intent = new Intent(aCtx,StoryActivity.class);
-                                        intent.putExtra("userid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                        aCtx.startActivity(intent);
-                                        dialogInterface.dismiss();
-                                    }
+                                (dialogInterface, i) -> {
+                                    Intent intent = new Intent(aCtx,StoryActivity.class);
+                                    intent.putExtra("userid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                    aCtx.startActivity(intent);
+                                    dialogInterface.dismiss();
                                 });
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Add Story",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent intent = new Intent(aCtx, AddStoryActivity.class);
-                                        aCtx.startActivity(intent);
-                                        dialogInterface.dismiss();
-                                    }
+                                (dialogInterface, i) -> {
+                                    Intent intent = new Intent(aCtx, AddStoryActivity.class);
+                                    aCtx.startActivity(intent);
+                                    dialogInterface.dismiss();
                                 });
                         alertDialog.show();
                     }
@@ -240,31 +214,26 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.MyViewHolder
     }
 
 
-    private void seenstory(MyViewHolder holder,String userId)
-    {
+    private void seenStory(MyViewHolder holder,String userId) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Story").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int i=0;
-                for (DataSnapshot snapshot1 : snapshot.getChildren())
-                {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     if (!snapshot1.child("views")
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).exists() && System.currentTimeMillis()  < snapshot1.getValue(StoryModel.class).getTimeend())
-                    {
+                        .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).exists() && System.currentTimeMillis()  < Objects.requireNonNull(snapshot1.getValue(StoryModel.class)).getTimeEnd()) {
                         i++;
                     }
                 }
-                if(i > 0)
-                {
+                if(i > 0) {
                     holder.story_photo.setVisibility(View.VISIBLE);
                     holder.story_photo_seen_layout.setBackground(aCtx.getResources().getDrawable(R.drawable.uigitdev_elements_profile_picture_gradient));
 
                 }
-                else
-                {
+                else {
                     holder.story_photo_seen_layout.setBackgroundColor(Color.GRAY);
-
                     holder.story_photo.setVisibility(View.VISIBLE);
 
                 }

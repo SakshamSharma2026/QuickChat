@@ -1,18 +1,60 @@
 package com.codewithshadow.quickchat.Models;
 
 public class StoryModel {
-    private String storyimg;
-    private long timestart;
-
-    public String getStoryid() {
-        return storyid;
+    public String getStoryImg() {
+        return storyImg;
     }
 
-    public void setStoryid(String storyid) {
-        this.storyid = storyid;
+    public StoryModel( String storyImg, long  timeStart, long  timeEnd, String userId,String storyId,String timeUpload) {
+        this.storyImg = storyImg;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.userId = userId;
+        this.storyId = storyId;
+        this.timeUpload = timeUpload;
     }
 
-    private String storyid;
+    public void setStoryImg(String storyImg) {
+        this.storyImg = storyImg;
+    }
+
+    public long getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(long timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public String getStoryId() {
+        return storyId;
+    }
+
+    public void setStoryId(String storyId) {
+        this.storyId = storyId;
+    }
+
+    public long getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(long timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public String getTimeUpload() {
+        return timeUpload;
+    }
+
+    public void setTimeUpload(String timeUpload) {
+        this.timeUpload = timeUpload;
+    }
+
+    private String storyImg;
+    private long timeStart;
+
+
+    private String storyId;
 
 
     public StoryModel ()
@@ -21,53 +63,9 @@ public class StoryModel {
     }
 
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    private String userId;
-
-    public String getStoryimg() {
-        return storyimg;
-    }
-
-    public void setStoryimg(String storyimg) {
-        this.storyimg = storyimg;
-    }
-
-    public long  getTimestart() {
-        return timestart;
-    }
-
-    public void setTimestart(long  timestart) {
-        this.timestart = timestart;
-    }
-
-    public long  getTimeend() {
-        return timeend;
-    }
-
-    public void setTimeend(long  timeend) {
-        this.timeend = timeend;
-    }
-
-    public StoryModel( String storyimg, long  timestart, long  timeend, String userId
-    ,String storyid,String timeupload) {
-        this.storyimg = storyimg;
-        this.timestart = timestart;
-        this.timeend = timeend;
-        this.userId = userId;
-        this.storyid = storyid;
-        this.timeupload = timeupload;
-    }
-
-    public StoryModel( String storyimg,String storyid,String msg) {
-        this.storyimg = storyimg;
-        this.storyid = storyid;
+    public StoryModel( String storyImg,String storyId,String msg) {
+        this.storyImg = storyImg;
+        this.storyId = storyId;
         this.msg = msg;
     }
 
@@ -81,17 +79,17 @@ public class StoryModel {
 
     private String msg;
 
-    private long  timeend;
+    private long  timeEnd;
+    private String userId;
 
-
-    public String getTimeupload() {
-        return timeupload;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setTimeupload(String timeupload) {
-        this.timeupload = timeupload;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    private String timeupload;
+    private String timeUpload;
 
 }

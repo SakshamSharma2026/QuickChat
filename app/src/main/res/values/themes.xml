@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.QuickChat" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -14,15 +14,15 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="BottomSheetDialogStyle" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSteetStyle</item>
     </style>
 
 
 
-    <style name="BottomSteetStyle" parent="Widget.MaterialComponents.BottomSheet">
+    <style name="BottomSteetStyle" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
     </style>
 </resources>

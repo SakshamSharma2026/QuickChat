@@ -15,12 +15,12 @@ public class UserModel {
     {}
 
 
-    public String getImgurl() {
-        return imgurl;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setImgurl(String imgurl) {
-        this.imgurl = imgurl;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     private String name;
@@ -41,9 +41,9 @@ public class UserModel {
         this.userid = userid;
     }
 
-    public UserModel(String name, String imgurl, String token, String userid,String status) {
+    public UserModel(String name, String imgUrl, String token, String userid, String status) {
         this.name = name;
-        this.imgurl = imgurl;
+        this.imgUrl = imgUrl;
         this.token = token;
         this.userid = userid;
         this.status=status;
@@ -57,7 +57,7 @@ public class UserModel {
         this.status = status;
     }
 
-    private String imgurl;
+    private String imgUrl;
     private String token;
     private String userid;
     private String status;

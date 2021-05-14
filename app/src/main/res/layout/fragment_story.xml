@@ -20,12 +20,22 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/searchBar"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                layout="@layout/search_bar_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
                 android:overScrollMode="never"
-                android:layout_alignParentTop="true"
+                android:layout_below="@id/searchBar"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/mystoryrecycler"
                 />

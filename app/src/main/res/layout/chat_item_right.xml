@@ -6,19 +6,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_height="wrap_content">
 
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/button_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:scaleType="centerCrop"
             android:visibility="gone"
             app:civ_border_color="@color/gray3"
             app:civ_border_width="1dp"
@@ -30,7 +30,7 @@
             app:cardElevation="0dp"
             android:visibility="gone"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_alignParentTop="true"
             android:id="@+id/card_image"
             app:cardCornerRadius="20dp"
@@ -42,17 +42,66 @@
                     android:layout_width="match_parent"
                     android:id="@+id/msg_img"
                     android:scaleType="centerCrop"
-                    android:transitionName="Image"
                     android:layout_height="match_parent"/>
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="200dp"
+            app:cardElevation="0dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/card_file"
+            android:backgroundTint="#fff1eb"
+            app:cardCornerRadius="20dp"
+            android:layout_height="100dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:id="@+id/msg_file"
+                    app:tint="#ff782e"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_above="@+id/rrll"
+                    android:src="@drawable/ic_files"
+                    android:layout_height="40dp"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/rrll"
+                    android:layout_centerHorizontal="true"
+                    android:background="#FFBF9C"
+                    android:layout_alignParentBottom="true"
+                    android:layout_height="30dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:id="@+id/text_file_name"
+                        android:textSize="12sp"
+                        android:lines="1"
+                        android:layout_marginStart="10dp"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/regular"
+                        />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_alignParentEnd="true"
             android:id="@+id/li"
             android:padding="5dp"
@@ -66,7 +115,6 @@
                 android:textSize="16sp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="saksham sharma"
                 android:fontFamily="@font/medium"
                 android:textColor="#1f7cff"
                 android:padding="8dp"
@@ -80,7 +128,7 @@
                 android:gravity="bottom"
                 android:textSize="10sp"
                 android:padding="2dp"
-                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:layout_marginEnd="5dp"
                 android:fontFamily="@font/medium"
                 android:textColor="#E2808080"

@@ -42,7 +42,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="#787878"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </RelativeLayout>
 
 

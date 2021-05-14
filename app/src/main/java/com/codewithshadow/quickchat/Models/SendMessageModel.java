@@ -3,20 +3,20 @@ package com.codewithshadow.quickchat.Models;
 public class SendMessageModel {
     private String sender;
     private String receiver;
+    private String filename;
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     public String getMsg_img() {
         return msg_img;
     }
 
-    public SendMessageModel(String sender, String receiver, String msg_img, String msg, String type, boolean isseen, String key) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.msg_img = msg_img;
-        this.msg = msg;
-        this.type = type;
-        this.isseen = isseen;
-        this.key = key;
-    }
 
     public void setMsg_img(String msg_img) {
         this.msg_img = msg_img;
@@ -24,16 +24,6 @@ public class SendMessageModel {
 
     private String msg_img;
 
-    public SendMessageModel(String sender, String receiver, String msg_img, String msg, String type, boolean isseen, String key,String time) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.msg_img = msg_img;
-        this.msg = msg;
-        this.type = type;
-        this.isseen = isseen;
-        this.key = key;
-        this.time = time;
-    }
 
     public String getTime() {
         return time;
@@ -57,6 +47,7 @@ public class SendMessageModel {
 
     private String type;
 
+
     public boolean isIsseen() {
         return isseen;
     }
@@ -68,8 +59,7 @@ public class SendMessageModel {
     private boolean isseen;
 
 
-    public SendMessageModel()
-    {
+    public SendMessageModel() {
 
     }
 

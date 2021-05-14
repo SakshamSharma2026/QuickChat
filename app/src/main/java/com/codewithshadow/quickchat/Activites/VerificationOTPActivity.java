@@ -1,28 +1,24 @@
 package com.codewithshadow.quickchat.Activites;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.cardview.widget.CardView;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.chaos.view.PinView;
 import com.codewithshadow.quickchat.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,52 +30,64 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-
+import org.jetbrains.annotations.NotNull;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class VerificationOTPActivity extends AppCompatActivity {
-    FrameLayout btnContinue;
+
+
+    CardView btnContinue;
     PhoneAuthProvider.ForceResendingToken forceResendingToken;
-    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     private String mVerificationId;
     private FirebaseAuth firebaseAuth;
+    FirebaseUser user;
     String  stringPhoneNumber;
     PinView checkOtp;
     ProgressBar progressBar;
     TextView btnResendOtp;
     TextView otpText;
-    FirebaseUser user;
 
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification_o_t_p);
+
+        //Firebase
         firebaseAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        //Intent Data
         Intent intent = getIntent();
         stringPhoneNumber = intent.getStringExtra("phoneNumber");
-        otpText = findViewById(R.id.textView);
+
+        //Hooks
+        initializeViews();
+
         otpText.setText("Enter the OTP sent to +91 " + stringPhoneNumber);
-        btnResendOtp = findViewById(R.id.btn_resend_otp);
-        btnContinue = findViewById(R.id.continue_btn);
+
+        //Continue Button
         btnContinue.setEnabled(false);
-        btnContinue.setBackgroundColor(getResources().getColor(R.color.gray2));
-        checkOtp = findViewById(R.id.validuserotp);
-        progressBar = findViewById(R.id.button_progress);
+        btnContinue.setCardBackgroundColor(getResources().getColor(R.color.gray2));
+
+        //ProgressBar
         progressBar.setVisibility(View.VISIBLE);
         btnResendOtp.setEnabled(false);
+
+        //Functions
         startPhoneVerification(stringPhoneNumber);
         reverseTimer(60,btnResendOtp);
 
     }
+
+
+
+    //-------------------------Phone Verification Start------------------------//
 
     private void startPhoneVerification(String phone) {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
@@ -91,7 +99,7 @@ public class VerificationOTPActivity extends AppCompatActivity {
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                         String code= phoneAuthCredential.getSmsCode();
                         checkOtp.setText(code);
-                        btnContinue.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        btnContinue.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
                         btnContinue.setEnabled(true);
                         signInWithPhoneAuth(phoneAuthCredential);
 
@@ -103,7 +111,7 @@ public class VerificationOTPActivity extends AppCompatActivity {
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             otpText.setError("Invalid phone number.");
                         } else if (e instanceof FirebaseTooManyRequestsException) {
-                            Toast.makeText(VerificationOTPActivity.this, "Trying too many timeS", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VerificationOTPActivity.this, "Trying too many times", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -121,28 +129,28 @@ public class VerificationOTPActivity extends AppCompatActivity {
 
                             @Override
                             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                if (s.toString().equals("") && s.toString().length()!=6) {
+                                    btnContinue.setEnabled(false);
+                                    btnContinue.setCardBackgroundColor(getResources().getColor(R.color.gray2));
 
+                                } else if (!s.toString().isEmpty() && s.toString().length()==6){
+                                    btnContinue.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                    btnContinue.setEnabled(true);
+                                }
                             }
 
                             @Override
                             public void afterTextChanged(Editable s) {
-                                if (s.toString().equals("") && s.toString().length()!=6) {
-                                    btnContinue.setEnabled(false);
-                                    btnContinue.setBackgroundColor(getResources().getColor(R.color.gray2));
 
-                                } else if (!s.toString().isEmpty() && s.toString().length()==6){
-                                    btnContinue.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                    btnContinue.setEnabled(true);
-                                }
                             }
                         });
                         PushDownAnim.setPushDownAnimTo(btnContinue).setOnClickListener(v -> {
-                            String code = checkOtp.getText().toString().trim();
+                            String code = Objects.requireNonNull(checkOtp.getText()).toString().trim();
                             if (TextUtils.isEmpty(code)) {
                                 Toast.makeText(VerificationOTPActivity.this,"Enter OTP",Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                VerifitionOtp(mVerificationId,code);
+                                VerificationOtp(mVerificationId,code);
                             }
                         });
                     }
@@ -153,54 +161,59 @@ public class VerificationOTPActivity extends AppCompatActivity {
     }
 
 
-    private void VerifitionOtp(String verificationId,String code) {
+    //-------------------OTP Verification----------------//
+
+    private void VerificationOtp(String verificationId,String code) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId,code);
         signInWithPhoneAuth(credential);
     }
 
+
+    //---------------------------Firebase SignIn Auth-----------------------------//
+
     private void signInWithPhoneAuth(PhoneAuthCredential credential) {
         progressBar.setVisibility(View.VISIBLE);
         firebaseAuth.signInWithCredential(credential)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
-                        ref.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.child(firebaseAuth.getUid()).exists()){
-                                    progressBar.setVisibility(View.GONE);
-                                    Intent intent = new Intent(VerificationOTPActivity.this, HomeActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                else {
-                                    progressBar.setVisibility(View.GONE);
-                                    Intent intent = new Intent(VerificationOTPActivity.this, UserDetailsActivity.class);
-                                    intent.putExtra("phone",stringPhoneNumber);
-                                    startActivity(intent);
-                                    finish();
-                                }
+                .addOnSuccessListener(authResult -> {
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            if (snapshot.child(Objects.requireNonNull(firebaseAuth.getUid())).exists()){
+                                progressBar.setVisibility(View.GONE);
+                                Intent intent = new Intent(VerificationOTPActivity.this, HomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
+                            else {
+                                progressBar.setVisibility(View.GONE);
+                                Intent intent = new Intent(VerificationOTPActivity.this, UserDetailsActivity.class);
+                                intent.putExtra("phone",stringPhoneNumber);
+                                startActivity(intent);
+                                finish();
                             }
-                        });
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+                        }
 
-            }
-        });
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+                    });
+                }).addOnFailureListener(e -> System.out.println(e.getMessage()));
+
+
     }
+
+
+
+    //------------------------Reverse Timer------------------------//
 
     public void reverseTimer(int Seconds, final TextView tv) {
 
         new CountDownTimer(Seconds * 1000 + 1000, 1000) {
 
+            @SuppressLint({"SetTextI18n", "DefaultLocale"})
             public void onTick(long millisUntilFinished) {
                 int seconds = (int) (millisUntilFinished / 1000);
 
@@ -213,18 +226,20 @@ public class VerificationOTPActivity extends AppCompatActivity {
                         + ":" + String.format("%02d", seconds));
             }
 
+            @SuppressLint("SetTextI18n")
             public void onFinish() {
                 tv.setText("Resend OTP");
                 tv.setEnabled(true);
-                tv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
+                tv.setOnClickListener(v -> {
+                    tv.setTextColor(Color.BLACK);
+                    resendOTP(stringPhoneNumber,forceResendingToken);
                 });
             }
         }.start();
     }
+
+
+    //----------------------------Resend OTP----------------------------//
 
     private void resendOTP(String phone,PhoneAuthProvider.ForceResendingToken token){
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
@@ -247,7 +262,7 @@ public class VerificationOTPActivity extends AppCompatActivity {
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             otpText.setError("Invalid phone number.");
                         } else if (e instanceof FirebaseTooManyRequestsException) {
-                            Toast.makeText(VerificationOTPActivity.this, "Trying too many timeS", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VerificationOTPActivity.this, "Trying too many times", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -258,15 +273,15 @@ public class VerificationOTPActivity extends AppCompatActivity {
                         mVerificationId = s;
                         forceResendingToken = token;
                         PushDownAnim.setPushDownAnimTo(btnContinue).setOnClickListener(v -> {
-                            String code = checkOtp.getText().toString().trim();
+                            String code = Objects.requireNonNull(checkOtp.getText()).toString().trim();
                             if (TextUtils.isEmpty(code)) {
                                 Toast.makeText(VerificationOTPActivity.this,"Enter OTP",Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 btnContinue.setEnabled(true);
                                 progressBar.setVisibility(View.GONE);
-                                btnContinue.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                VerifitionOtp(mVerificationId,code);
+                                btnContinue.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                VerificationOtp(mVerificationId,code);
                             }
                         });
                     }
@@ -274,6 +289,17 @@ public class VerificationOTPActivity extends AppCompatActivity {
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
 
+    }
+
+
+    //---------------------------Initialize Views----------------------------//
+
+    private void initializeViews() {
+        otpText = findViewById(R.id.textView);
+        btnResendOtp = findViewById(R.id.btn_resend_otp);
+        btnContinue = findViewById(R.id.continue_btn);
+        checkOtp = findViewById(R.id.validuserotp);
+        progressBar = findViewById(R.id.button_progress);
     }
 
 

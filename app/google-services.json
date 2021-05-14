@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "657781917604",
+    "project_id": "quickchat-aa776",
+    "storage_bucket": "quickchat-aa776.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657781917604:android:e0f6131286ee33d9b6a331",
+        "android_client_info": {
+          "package_name": "com.codewithshadow.quickchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657781917604-06bo7p078lanaqnl7n4cfugb615mk23v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codewithshadow.quickchat",
+            "certificate_hash": "815fe5d0719f67940da61a9183c77e5281f32a06"
+          }
+        },
+        {
+          "client_id": "657781917604-aicdurlkeh1r6gbiupk3le1edc21qn04.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXKyBDCTTCtUpq-gxBz4EW6NNvO_mviTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657781917604-aicdurlkeh1r6gbiupk3le1edc21qn04.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

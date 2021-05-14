@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">QuickChat</string>
 
-    <string name="india">Made in India</string>
+    <string name="india">Made with &#10084; in India</string>
     <string name="get_started">Get Started</string>
     <string name="next">Next</string>
 
@@ -21,9 +21,9 @@
 
     <!--    LoginScreen-->
 
-    <string name="provide_number">Please provide your number to continue </string>
+    <string name="provide_number">Your phone number </string>
     <string name="continue_btn">Continue</string>
-    <string name="get_otp">Get OTP</string>
+    <string name="get_otp">Send code</string>
     <string name="terms_and_conditions">By continuing. you agree to our Terms and Condition and Privacy Policy</string>
 
 

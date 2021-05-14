@@ -1,25 +1,32 @@
 package com.codewithshadow.quickchat.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.codewithshadow.quickchat.R;
 import com.codewithshadow.quickchat.Activites.SendMessageActivity;
 import com.codewithshadow.quickchat.Models.SendMessageModel;
 import com.codewithshadow.quickchat.Models.UserModel;
+import com.codewithshadow.quickchat.Utils.AESUtils;
+import com.codewithshadow.quickchat.Utils.UniversalImageLoderClass;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -55,9 +64,25 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
     public void onBindViewHolder(@NonNull MessageUserAdapter.MyViewHolder holder, int position) {
         UserModel model = list.get(position);
         holder.username.setText(model.getName());
+//        UniversalImageLoderClass.setImage(model.getImgUrl(),holder.userImage,null);
         RequestOptions myOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+
+        Glide
+                .with(aCtx)
+                .load(model.getImgUrl())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .dontAnimate()
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
+                        holder.userImage.setImageDrawable(resource);
+                    }
+                });
+
+
         Glide.with(aCtx)
-                .load(model.getImgurl())
+                .load(model.getImgUrl())
                 .thumbnail(0.05f)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(myOptions)
@@ -66,8 +91,7 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
         unreadMessages(holder,model.getUserid());
 
 
-        if (isChat)
-        {
+        if (isChat) {
             if (model.getStatus().equals("online")) {
                 holder.badge.setVisibility(View.VISIBLE);
             }
@@ -75,24 +99,20 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
                 holder.badge.setVisibility(View.GONE);
             }
         }
-        else
-        {
+        else {
             holder.badge.setVisibility(View.GONE);
         }
 
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(aCtx, SendMessageActivity.class);
-                intent.putExtra("imgurl",model.getImgurl());
-                intent.putExtra("username",model.getName());
-                intent.putExtra("userid",model.getUserid());
-
-                aCtx.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(aCtx, SendMessageActivity.class);
+            intent.putExtra("imgUrl",model.getImgUrl());
+            intent.putExtra("username",model.getName());
+            intent.putExtra("userid",model.getUserid());
+            aCtx.startActivity(intent);
         });
+
     }
 
     @Override
@@ -119,8 +139,7 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
     }
 
 
-    private void unreadMessages(MyViewHolder holder,String userid)
-    {
+    private void unreadMessages(MyViewHolder holder,String userid) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Chats");
         reference.addValueEventListener(new ValueEventListener() {
@@ -130,17 +149,14 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
                 int unread=0;
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     model = dataSnapshot.getValue(SendMessageModel.class);
-                    if (model.getReceiver().equals(user.getUid()) && model.getSender().equals(userid) && !model.isIsseen())
-                    {
+                    if (model.getReceiver().equals(user.getUid()) && model.getSender().equals(userid) && !model.isIsseen()) {
                         unread++;
                     }
                 }
-                if (unread==0)
-                {
+                if (unread==0) {
                     holder.card_unread.setVisibility(View.GONE);
                 }
-                else
-                {
+                else {
                     holder.card_unread.setVisibility(View.VISIBLE);
                     holder.unreadtext.setText(unread+"");
                 }
@@ -154,8 +170,7 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
 
     }
 
-    private void lastMessage(String userid , TextView last_msg,TextView last_time)
-    {
+    private void lastMessage(String userid , TextView last_msg,TextView last_time) {
         theLastMessage = "default";
         theLastTime = "default";
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -168,30 +183,29 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
                     model = snapshot1.getValue(SendMessageModel.class);
 
                     if (model.getReceiver().equals(user.getUid()) && model.getSender().equals(userid) || model.getReceiver().equals(userid) && model.getSender().equals(user.getUid())) {
-                        theLastMessage = model.getMsg();
+                        String decrypted = "";
+                        try {
+                            decrypted = AESUtils.decrypt(model.getMsg());
+                            Log.d("TEST", "decrypted:" + decrypted);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        theLastMessage = decrypted;
                         theLastTime = model.getTime();
                     }
                 }
 
-                switch (theLastMessage)
-                {
-                    case "default":
-                        last_msg.setText("Active now");
-                        break;
-                    default:
-                        last_msg.setText(theLastMessage);
-                        break;
+                if ("default".equals(theLastMessage)) {
+                    last_msg.setText("Active now");
+                } else {
+                    last_msg.setText(theLastMessage);
                 }
                 theLastMessage = "default";
 
-                switch (theLastTime)
-                {
-                    case "default":
-                        last_time.setText(" ");
-                        break;
-                    default:
-                        last_time.setText(theLastTime);
-                        break;
+                if ("default".equals(theLastTime)) {
+                    last_time.setText(" ");
+                } else {
+                    last_time.setText(theLastTime);
                 }
                 theLastTime = "default";
             }

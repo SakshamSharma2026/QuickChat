@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface NotificationRequest {
 
-    @Headers({"Content-Type:application/json","Authorization:key=AAAA9Rz8h8I:APA91bGj6kYjCl9joh6jLooh8q1VjFHl_INMau812QMDujvr6Fbqnyz00BCtNvVf8D0hwUmbFlhlpFs5qV6wKoYK3ypojRppNSoa98YEN73TJP8v9WgKxRokygHkw8YjhtGEb5VsGH9c"})
+    @Headers({"Content-Type:application/json","Authorization:key=AAAAmSbbh6Q:APA91bGGXUh9eaFbz7wKJ-LXllFcXITLJUb-55WTxouvXYXohQa87zeDH2gC664GDL52P4dlPfp1exl7fyDB7MiiG8S8_6q11NAkeIKPlpoTKVGkpqFIjhUH87F__euH9eR7r-nbwZGN\t\n"})
     @POST("send")
     Call<NotificationResponce> sent(@Body NotificationReq req);
 

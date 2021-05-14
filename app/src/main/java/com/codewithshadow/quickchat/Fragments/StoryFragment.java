@@ -1,16 +1,16 @@
 package com.codewithshadow.quickchat.Fragments;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.EditText;
 import com.codewithshadow.quickchat.Models.UserModel;
 import com.codewithshadow.quickchat.R;
 import com.codewithshadow.quickchat.Adapter.StoryAdapter;
@@ -22,16 +22,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class StoryFragment extends Fragment {
+
+
     RecyclerView recyclerView;
     List<StoryModel> storyModelList;
     LinearLayoutManager manager;
@@ -41,12 +37,9 @@ public class StoryFragment extends Fragment {
     private List<String> followingList;
 
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -54,15 +47,7 @@ public class StoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static StoryFragment newInstance(String param1, String param2) {
         StoryFragment fragment = new StoryFragment();
         Bundle args = new Bundle();
@@ -82,12 +67,17 @@ public class StoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_story, container, false);
+
+        //Firebase
         auth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        //RecyclerView
         recyclerView = view.findViewById(R.id.mystoryrecycler);
         storyModelList = new ArrayList<>();
         followingList = new ArrayList<>();
@@ -97,11 +87,51 @@ public class StoryFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(storyAdapter);
         recyclerView.setNestedScrollingEnabled(false);
-        checkFollowing();
+
+        //Search EditText
+        EditText sv = view.findViewById(R.id.item_search_input);
+        sv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                SearchInDatabase(s);
+
+            }
+        });
+
+
+        //Function
+        GetAllUsersId();
         return view;
     }
 
-    private void checkFollowing() {
+
+
+
+    //---------------------------------------Search----------------------------/
+    private void SearchInDatabase(Editable s) {
+        List<StoryModel> myList = new ArrayList<>();
+        for (StoryModel object : storyModelList) {
+            if (object.getStoryId().toLowerCase().contains(s.toString().toLowerCase())) {
+                myList.add(object);
+            }
+        }
+        storyAdapter  = new StoryAdapter(getContext(), myList);
+        recyclerView.setAdapter(storyAdapter);
+    }
+
+
+    //--------------------------------Get All Users Id--------------------------------//
+    private void GetAllUsersId() {
         followingList = new ArrayList<>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -111,11 +141,10 @@ public class StoryFragment extends Fragment {
                 UserModel model = null;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     model = dataSnapshot.child("Info").getValue(UserModel.class);
+                    assert model != null;
                     if (!model.getUserid().equals(user.getUid())) {
                         followingList.add(dataSnapshot.getKey());
-                        System.out.println(followingList);
                     }
-
                 }
                 readStory();
 
@@ -128,32 +157,30 @@ public class StoryFragment extends Fragment {
         });
     }
 
-    private void readStory()
-    {
+    //-----------------------------Read Story------------------------//
+
+    private void readStory() {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Story");
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long timecurrent = System.currentTimeMillis();
+                long timeCurrent = System.currentTimeMillis();
                 storyModelList.clear();
                 storyModelList.add(new StoryModel("",0,0, FirebaseAuth.getInstance().getCurrentUser().getUid(),"",""));
-                for (String id : followingList)
-                {
+                for (String id : followingList) {
                     int countStory = 0;
                     StoryModel storyModel = null;
                     for (DataSnapshot snapshot2 : snapshot.child(id).getChildren()) {
                         storyModel = snapshot2.getValue(StoryModel.class);
-                        if (timecurrent > storyModel.getTimestart() && timecurrent < storyModel.getTimeend()) {
+                        assert storyModel != null;
+                        if (timeCurrent > storyModel.getTimeStart() && timeCurrent < storyModel.getTimeEnd()) {
                             countStory++;
                         }
                     }
-                    if (countStory > 0)
-                    {
+                    if (countStory > 0) {
                         storyModelList.add(storyModel);
                     }
                 }
-
-
                 storyAdapter.notifyDataSetChanged();
             }
 

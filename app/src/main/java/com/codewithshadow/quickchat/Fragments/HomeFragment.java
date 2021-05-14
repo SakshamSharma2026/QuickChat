@@ -1,18 +1,18 @@
 package com.codewithshadow.quickchat.Fragments;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
+import android.widget.EditText;
 import com.codewithshadow.quickchat.Adapter.MessageUserAdapter;
 import com.codewithshadow.quickchat.Utils.AppSharedPreferences;
 import com.codewithshadow.quickchat.R;
@@ -24,41 +24,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-
+import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
+
     FirebaseUser user;
     List<UserModel> list;
     MessageUserAdapter adapter;
     RecyclerView recyclerView;
     LinearLayoutManager manager;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    CollectionReference collectionReference;
     AppSharedPreferences appSharedPreferences;
     DatabaseReference ref;
+    SwipeRefreshLayout swipeRefreshLayout;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -66,15 +49,7 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -98,70 +73,101 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        appSharedPreferences = new AppSharedPreferences(getActivity());
+
+        //AppSharedPreferences
+        appSharedPreferences = new AppSharedPreferences(Objects.requireNonNull(getActivity()));
+
+        //Firebase
         ref = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        //RecyclerView
         recyclerView = view.findViewById(R.id.user_recycler);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+        recyclerView.setHasFixedSize(true);
+
+        manager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(manager);
 
         list = new ArrayList<>();
 
-        manager = new LinearLayoutManager(getActivity());
-        recyclerView.setHasFixedSize(true);
-        manager.setReverseLayout(true);
-        manager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(manager);
 
+        //Search Edit Text
+        EditText sv = view.findViewById(R.id.item_search_input);
 
+        sv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                SearchInDatabase(s);
+
+            }
+        });
+
+        //Function
         Read_Users();
+
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            list.clear();
+            Read_Users();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            },3000);
+        });
         return view;
 
     }
 
 
+    //--------------------------Search------------------------//
+    private void SearchInDatabase(Editable s) {
+            List<UserModel> mylist = new ArrayList<>();
+            for (UserModel object : list) {
+                if (object.getName().toLowerCase().contains(s.toString().toLowerCase())) {
+                    mylist.add(object);
+                }
+            }
+            adapter  = new MessageUserAdapter(getContext(), mylist,true);
+            recyclerView.setAdapter(adapter);
+    }
+
+
+    //----------------------------------Read Users--------------------------------//
     private void Read_Users() {
-        ref.child("Users").addValueEventListener(new ValueEventListener() {
+        ref.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 list.clear();
-                UserModel model = null;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    model = dataSnapshot.child("Info").getValue(UserModel.class);
+                    UserModel model = dataSnapshot.child("Info").getValue(UserModel.class);
+                    assert model != null;
                     if (!model.getUserid().equals(user.getUid())) {
                         list.add(model);
                     }
 
                 }
-                adapter = new MessageUserAdapter(getActivity(), list, true);
+                adapter = new MessageUserAdapter(getContext(), list, true);
                 recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
-
-
-    }
-
-    private void status(String status) {
-        DocumentReference documentReference = db.collection("Users").document(user.getUid());
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status", status);
-        documentReference.update(hashMap);
     }
 }
 
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        status("online");
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        status("offline");
-//    }

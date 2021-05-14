@@ -134,6 +134,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_visibility_24"
+                app:tint="@color/white"
                 android:layout_height="wrap_content"/>
 
             <TextView
@@ -141,34 +143,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:id="@+id/seentext"
-                android:fontFamily="@font/medium"
-                android:textColor="@color/white"
-                />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:layout_toStartOf="@id/l"
-            android:layout_centerVertical="true"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:id="@+id/highlightstory"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="3dp"
-                android:text="Highlight"
                 android:fontFamily="@font/medium"
                 android:textColor="@color/white"
                 />
@@ -192,6 +166,7 @@
                 android:src="@drawable/ic_baseline_delete_24"
                 android:id="@+id/deletestory"
                 android:layout_gravity="center"
+                app:tint="@color/white"
                 android:layout_height="wrap_content"/>
 
             <TextView
