@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="56dp">
 
@@ -10,7 +11,8 @@
         android:layout_height="50dp"
         android:background="#ffffff"
         android:paddingStart="15dp"
-        android:paddingEnd="15dp">
+        android:paddingEnd="15dp"
+        tools:ignore="UselessParent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/item_card_parent"
@@ -51,7 +53,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="15dp"
                     android:src="@drawable/ic_search_black_24dp"
-                    app:tint="#D7797979" />
+                    app:tint="#D7797979"
+                    tools:ignore="ContentDescription" />
 
 
 

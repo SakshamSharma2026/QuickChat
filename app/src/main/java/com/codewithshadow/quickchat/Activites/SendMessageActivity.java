@@ -18,9 +18,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -28,21 +30,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codewithshadow.quickchat.Adapter.SendMessageAdapter;
+import com.codewithshadow.quickchat.Adapter.UserProfileDetailsAdapter;
 import com.codewithshadow.quickchat.Models.SendMessageModel;
 import com.codewithshadow.quickchat.R;
 import com.codewithshadow.quickchat.Utils.AESUtils;
 import com.codewithshadow.quickchat.Utils.AppSharedPreferences;
 import com.codewithshadow.quickchat.Utils.ImageCompressor;
+import com.codewithshadow.quickchat.Utils.KeyboardUtils;
 import com.codewithshadow.quickchat.Utils.LoadingDialog;
 import com.fxn.pix.Options;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -77,7 +83,7 @@ public class SendMessageActivity extends AppCompatActivity {
 
     CircleImageView imageView;
     TextView username;
-    String stringUsername, stringUserid, stringImgUrl;
+    String stringUsername, stringUserid, stringImgUrl ,stringStatus;
     EditText typeMessage;
     ImageView backBtn;
     FirebaseUser user;
@@ -105,7 +111,11 @@ public class SendMessageActivity extends AppCompatActivity {
     List<String> youBlockList;
     List<String> blockedByList;
     PopupMenu popup;
-
+    RelativeLayout childLayout;
+    BottomSheetDialog bottomSheetDialog;
+    UserProfileDetailsAdapter userProfileDetailsAdapter;
+    SendMessageModel model;
+    TextView text_online;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +142,16 @@ public class SendMessageActivity extends AppCompatActivity {
         stringUsername = intent.getStringExtra("username");
         stringImgUrl = intent.getStringExtra("imgUrl");
         stringUserid = intent.getStringExtra("userid");
+        stringStatus = intent.getStringExtra("status");
+
+
+        if (stringStatus.equals("online")) {
+            text_online.setText("Online");
+            text_online.setTextColor(getResources().getColor(R.color.green));
+        }else{
+            text_online.setText("Offline");
+            text_online.setTextColor(getResources().getColor(R.color.intro_desc_color));
+        }
 
 
         //RecyclerView Data
@@ -154,7 +174,6 @@ public class SendMessageActivity extends AppCompatActivity {
 
 
         isUp = false;
-
 
 
         //Choose Tools
@@ -226,6 +245,38 @@ public class SendMessageActivity extends AppCompatActivity {
             popup.show();
         });
 
+        list = new ArrayList<>();
+
+        userProfileDetailsAdapter = new UserProfileDetailsAdapter(SendMessageActivity.this,list);
+
+
+        childLayout.setOnClickListener(v -> {
+            bottomSheetDialog=new BottomSheetDialog(SendMessageActivity.this,R.style.BottomSheetDialogStyle);
+            View bottomsheetview = LayoutInflater.from(SendMessageActivity.this).inflate(R.layout.bottom_sheet_user_profile_details,(ScrollView)findViewById(R.id.rll));
+
+            bottomSheetDialog.setContentView(bottomsheetview);
+            bottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            bottomSheetDialog.getWindow().getAttributes().gravity = Gravity.BOTTOM;
+            bottomSheetDialog.show();
+            TextView name = bottomSheetDialog.findViewById(R.id.item_text_1);
+            CircleImageView profile = bottomSheetDialog.findViewById(R.id.item_profile_picture);
+            name.setText(stringUsername);
+            Glide.with(getApplicationContext()).load(stringImgUrl).into(profile);
+            RecyclerView recyclerView = bottomSheetDialog.findViewById(R.id.shared_recycler);
+            LinearLayoutManager manager = new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false);
+            assert recyclerView != null;
+            manager.setStackFromEnd(true);
+            manager.setReverseLayout(true);
+            recyclerView.setLayoutManager(manager);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(userProfileDetailsAdapter);
+            if (model.getType().equals("image")){
+                System.out.println("saksahm   " + recyclerView.getAdapter().getItemCount());
+
+            }
+            userProfileDetailsAdapter.notifyDataSetChanged();
+        });
+
 
         //Functions
         Check_blockList(user.getUid());
@@ -251,6 +302,7 @@ public class SendMessageActivity extends AppCompatActivity {
                                 reference.child(stringUserid).child("Blocked").child(user.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                        reference.child(userID).child("Blocked").child(stringUserid).removeValue();
                                         layout.setVisibility(View.VISIBLE);
                                         block_layout.setVisibility(View.GONE);
                                     }
@@ -503,9 +555,9 @@ public class SendMessageActivity extends AppCompatActivity {
                         Bitmap src = imageCompressor.decodeFile(image.getPath());
                         ByteArrayOutputStream os = new ByteArrayOutputStream();
                         src.compress(Bitmap.CompressFormat.PNG, 80, os);
-
-                        String path = MediaStore.Images.Media.insertImage(getContentResolver(), src, "title", null);
+                        String path = MediaStore.Images.Media.insertImage(getContentResolver(), src, "image", null);
                         Uri uri  = Uri.parse(path);
+                        System.out.println(path + "   " + uri);
                         uploadImage(uri);
 
                     }
@@ -522,15 +574,12 @@ public class SendMessageActivity extends AppCompatActivity {
     //------------------------------Read Message------------------------------------//
 
     private void Read_Message(String myId,String userid,String imageUrl) {
-        list = new ArrayList<>();
-
         ref.child("Chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
                 for(DataSnapshot snap : snapshot.getChildren()) {
-                    SendMessageModel model = snap.getValue(SendMessageModel.class);
-                    assert model != null;
+                    model = snap.getValue(SendMessageModel.class);
                     if (model.getReceiver().equals(myId) && model.getSender().equals(userid) || model.getReceiver().equals(userid) && model.getSender().equals(myId)) {
                         list.add(model);
                         recyclerView.smoothScrollToPosition(model.getKey().length()-1);
@@ -591,7 +640,15 @@ public class SendMessageActivity extends AppCompatActivity {
                             map.put("receiver", stringUserid);
                             assert key != null;
                             ref.child("Chats").child(key).setValue(map).addOnCompleteListener(task -> {
+                                File file = new File(image.getPath());
+                                System.out.println(file + "   " + uri + "  " + image.getPath());
 
+                                if(file.delete()) {
+                                    System.out.println("File deleted successfully");
+                                }
+                                else {
+                                    System.out.println("Failed to delete the file");
+                                }
                             });
                         }catch (Exception e){
                             e.printStackTrace();
@@ -673,15 +730,18 @@ public class SendMessageActivity extends AppCompatActivity {
         send_message_layout = findViewById(R.id.send_message_layout);
         block_acc_text = findViewById(R.id.block_account_text);
         unblock_layout = findViewById(R.id.unblock_layout);
+        childLayout = findViewById(R.id.childRelative);
+        text_online = findViewById(R.id.text_online);
     }
 
 
 //    -----------------------------------Change User Status (Online / Offline)--------------------------------//
 
-    private void status(String status) {
+    private String status(String status) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("status",status);
         ref.child("Users").child(user.getUid()).child("Info").updateChildren(hashMap);
+        return status;
     }
 
 

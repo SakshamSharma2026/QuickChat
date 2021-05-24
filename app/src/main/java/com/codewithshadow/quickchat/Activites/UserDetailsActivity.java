@@ -192,7 +192,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                 public void onComplete(@NonNull @NotNull Task<String> task) {
                     if (task.isComplete()){
                             String token = task.getResult();
-                            String string_null_image = "https://firebasestorage.googleapis.com/v0/b/quickchat-aa776.appspot.com/o/User%20Image%20Folder%2Fuser.png?alt=media&token=9950ed63-0273-490e-bac1-46fbe5ea97b0";
+                            String string_null_image = "https://firebasestorage.googleapis.com/v0/b/quickchat-aa776.appspot.com/o/User%20Image%20Folder%2Fuser.svg?alt=media&token=bf49d45e-60b6-4ae3-a241-7c46e72d4977";
                             uploadData(string_null_image,token,name,loadingDialog);
                     }
                 }

@@ -64,7 +64,6 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
     public void onBindViewHolder(@NonNull MessageUserAdapter.MyViewHolder holder, int position) {
         UserModel model = list.get(position);
         holder.username.setText(model.getName());
-//        UniversalImageLoderClass.setImage(model.getImgUrl(),holder.userImage,null);
         RequestOptions myOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
 
         Glide
@@ -110,6 +109,7 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
             intent.putExtra("imgUrl",model.getImgUrl());
             intent.putExtra("username",model.getName());
             intent.putExtra("userid",model.getUserid());
+            intent.putExtra("status",model.getStatus());
             aCtx.startActivity(intent);
         });
 
@@ -186,7 +186,6 @@ public class MessageUserAdapter extends RecyclerView.Adapter<MessageUserAdapter.
                         String decrypted = "";
                         try {
                             decrypted = AESUtils.decrypt(model.getMsg());
-                            Log.d("TEST", "decrypted:" + decrypted);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

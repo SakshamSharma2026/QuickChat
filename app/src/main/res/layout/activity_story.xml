@@ -136,7 +136,8 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_baseline_visibility_24"
                 app:tint="@color/white"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -167,14 +168,15 @@
                 android:id="@+id/deletestory"
                 android:layout_gravity="center"
                 app:tint="@color/white"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:layout_marginTop="3dp"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:fontFamily="@font/medium"
                 android:textColor="@color/white"
                 />

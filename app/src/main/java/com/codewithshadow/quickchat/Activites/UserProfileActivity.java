@@ -104,7 +104,7 @@ public class UserProfileActivity extends AppCompatActivity {
         btnEditName.setOnClickListener(v -> {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
             bottomSheetDialog=new BottomSheetDialog(UserProfileActivity.this,R.style.BottomSheetDialogStyle);
-            View bottomsheetview = LayoutInflater.from(UserProfileActivity.this).inflate(R.layout.highlight_bottomsheet,(ScrollView)findViewById(R.id.rll));
+            View bottomsheetview = LayoutInflater.from(UserProfileActivity.this).inflate(R.layout.edit_name_bottomsheet,(ScrollView)findViewById(R.id.rll));
             KeyboardUtils  k = new KeyboardUtils();
             k.KeyboardUtil(this,bottomsheetview);
 

@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         app:elevation="20dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_cornes">
+        android:background="@color/white">
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_arrow_back_black_24dp"
                     android:layout_centerVertical="true"
-                    />
+                    tools:ignore="ContentDescription" />
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -57,8 +57,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:padding="5dp"
-                    android:layout_alignParentEnd="true"
+                    android:id="@+id/childRelative"
+                    android:layout_toStartOf="@+id/btn_more"
                     android:background="?selectableItemBackground"
+                    android:layout_marginEnd="10dp"
                     android:layout_toEndOf="@id/button_image"
                     android:layout_marginStart="10dp">
                     <TextView
@@ -74,26 +76,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:text="online"
+                        android:text="@string/online"
+                        android:id="@+id/text_online"
                         android:layout_below="@id/username"
                         android:fontFamily="@font/light"
                         android:textColor="@color/green"
                         />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_more_vert_24"
-                        app:tint="@color/black"
-                        android:layout_marginEnd="10dp"
-                        android:id="@+id/btn_more"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        />
-
                 </RelativeLayout>
-
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_more_vert_24"
+                    app:tint="@color/black"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/btn_more"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
 
@@ -138,7 +139,8 @@
             android:padding="15dp"
             android:visibility="gone"
             android:id="@+id/extra_tools"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -170,7 +172,7 @@
                             android:src="@drawable/ic_gallery_icon"
                             android:layout_gravity="center"
                             app:tint="#382BFB"
-                            />
+                            tools:ignore="ContentDescription" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -178,7 +180,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Image"
+                    android:text="@string/image"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:fontFamily="@font/bold"
@@ -231,7 +233,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="File"
+                        android:text="@string/file"
                         android:fontFamily="@font/bold"
                         android:layout_marginTop="5dp"
                         android:textColor="#F8808080"
@@ -260,7 +262,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You Blocked This Account "
+            android:text="@string/blocked_acc"
             android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/block_account_text"
@@ -273,7 +275,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You can't send messages ,images or files to this account.."
+            android:text="You can\'t send messages ,images or files to this account."
             android:layout_gravity="center"
             android:gravity="center"
             android:lines="2"
@@ -283,7 +285,7 @@
             android:textColor="@color/black"
             android:fontFamily="@font/regular"
             android:padding="5dp"
-            />
+            tools:ignore="HardcodedText" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -301,7 +303,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Unblock"
+                android:text="@string/unblock"
                 android:background="?selectableItemBackground"
                 android:id="@+id/unblock_btn"
                 android:layout_gravity="center"
@@ -321,7 +323,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="16sp"

@@ -31,35 +31,31 @@
         android:gravity="center"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:text="Step 03/03"
+        android:text="@string/step3"
         android:textColor="#A5A2A2"
         android:textSize="14sp"
         />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Profile Info"
+            android:text="@string/profile_info"
             android:textColor="@color/black"
             android:fontFamily="@font/regular"
             android:textSize="18sp"
             android:id="@+id/text"
             android:gravity="center"
             android:layout_marginTop="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Please provide your name and an optional profile photo"
+            android:text="@string/profile_info_txt"
             android:textColor="@color/black"
-            android:layout_below="@id/text"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/regular"
             android:textSize="14sp"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
             />
 
         <androidx.cardview.widget.CardView
@@ -83,7 +79,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/user" />
+                    android:src="@drawable/ic_user" />
 
             </RelativeLayout>
 

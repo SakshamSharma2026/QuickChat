@@ -5,11 +5,7 @@ import android.content.SharedPreferences;
 
 public class AppSharedPreferences {
     private SharedPreferences sharedPreference;
-
-    private static final String flag="logout";
-
     private  SharedPreferences.Editor editor;
-
 
     private static final String username="username";
     private  static  final  String imgUrl ="imgUrl";

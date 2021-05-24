@@ -50,8 +50,7 @@ public class SendMessageAdapter extends RecyclerView.Adapter<SendMessageAdapter.
 
 
 
-    public SendMessageAdapter(Context aCtx, List<SendMessageModel> list, String imageUrl)
-    {
+    public SendMessageAdapter(Context aCtx, List<SendMessageModel> list, String imageUrl) {
         this.aCtx=aCtx;
         this.list=list;
         this.imageUrl=imageUrl;
@@ -71,7 +70,6 @@ public class SendMessageAdapter extends RecyclerView.Adapter<SendMessageAdapter.
             View view = LayoutInflater.from(aCtx).inflate(R.layout.chat_item_left, parent, false);
             return new SendMessageAdapter.MyViewHolder(view);
         }
-
 
 
     }
@@ -134,8 +132,6 @@ public class SendMessageAdapter extends RecyclerView.Adapter<SendMessageAdapter.
         else {
             holder.text_seen.setVisibility(View.GONE);
         }
-
-
 
 
 

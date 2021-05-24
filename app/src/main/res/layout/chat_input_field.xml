@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom">
@@ -63,7 +64,7 @@
                             android:src="@drawable/ic_paper_clip"
                             app:tint="@color/white"
                             android:layout_centerVertical="true"
-                            />
+                            tools:ignore="ContentDescription" />
 
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
@@ -144,7 +145,7 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_send_black_24dp"
                     app:tint="@color/white"
-                    />
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

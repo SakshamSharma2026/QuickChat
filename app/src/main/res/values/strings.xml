@@ -1,5 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">QuickChat</string>
+    <string name="chat_app">Chatting Application</string>
 
     <string name="india">Made with &#10084; in India</string>
     <string name="get_started">Get Started</string>
@@ -12,19 +13,18 @@
     <string name="consult_doctor_heading">Online Consultation</string>
     <string name="book_doctor_heading">Book Appointment</string>
 
-    <!--    App Description Text-->
-
-    <string name="search_doctor_text">Best Offers on Top Brands.Exclusive Cashbacks.Additional 5% Off on orders above Rs 1000</string>
-    <string name="consult_doctor_text">Multi-lingual Consultation Support.AI-Enabled Health Assistant.Consult with the Finest Health Experts</string>
-    <string name="book_doctor_text">Shopping made easy with COD.Serving over 20000+ pin codes.15 Days Easy Return Policy</string>
 
 
     <!--    LoginScreen-->
 
     <string name="provide_number">Your phone number </string>
+    <string name="welcome">Welcome to QuickChat</string>
+    <string name="sign_in">Sign in to continue…</string>
     <string name="continue_btn">Continue</string>
     <string name="get_otp">Send code</string>
     <string name="terms_and_conditions">By continuing. you agree to our Terms and Condition and Privacy Policy</string>
+    <string name="step1">Step 01/03</string>
+    <string name="enter_mobile_no">Enter Mobile Number</string>
 
 
     <!--    Verify OTP Screen-->
@@ -32,24 +32,20 @@
     <string name="otp_text">Enter the OTP sent to +91 123456789</string>
     <string name="trouble">Having trouble?</string>
     <string name="resend_otp">Resend OTP</string>
-    <string name="patient_details">Enter your details...</string>
+    <string name="user_details">Enter your details…</string>
+    <string name="step2">Step 02/03</string>
+
+
+    <!--   Profile Screen-->
+    <string name="step3">Step 03/03</string>
+    <string name="profile_info">Profile Info</string>
+    <string name="profile_info_txt">Please provide your name and an optional profile photo</string>
+
 
 
     <!--    Home Screen-->
-    <string name="consult_by_symtoms">Consult by Symptoms</string>
-    <string name="consult_for_disease">Consult for all diseases</string>
+    <string name="chats">Chats</string>
 
-    <!--    Consult and Find doctor Screen-->
-    <string name="consult_find">Select symptom and Find doctors</string>
-    <string name="doctors_list">Doctors List</string>
-
-    <string name="doctors_profile">Doctor Profile</string>
-
-    <string name="book_appointment">Pay now and Book</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <string-array name="CountryCodes">
@@ -260,6 +256,37 @@
         <item>260,ZM</item>
         <item>263,ZW</item>
     </string-array>
+
+
+    <!--         Send Message     -->
+    <string name="online">Online</string>
+    <string name="image">Image</string>
+    <string name="file">File</string>
+    <string name="blocked_acc">You Blocked this account</string>
+    <string name="unblock">Unblock</string>
+    <string name="delete">Delete</string>
+
+
+    <!--    Change Profile Screen-->
+    <string name="profile">Profile</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="logout">Logout</string>
+    <string name="save">Save</string>
+    <string name="edit_name">Enter your name</string>
+
+    <!--   Block Screen-->
+    <string name="shared_media">Shared media</string>
+    <string name="story">My Story</string>
+    <string name="story_status">Tap to add status update</string>
+    <string name="un_send">UnSend</string>
+    <string name="seen">seen</string>
+
+    <string name="block">Block</string>
+    <string name="cancel">Cancel</string>
+
+
+    <string name="registering">Registering…</string>
 
 
 </resources>

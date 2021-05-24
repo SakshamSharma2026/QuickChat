@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Activites.HomeActivity">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:elevation="0dp"
@@ -54,7 +51,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Chats"
+                            android:text="@string/chats"
                             android:layout_toEndOf="@id/profile_img"
                             android:textSize="20sp"
                             android:layout_marginStart="20dp"
@@ -72,7 +69,7 @@
                             android:layout_marginEnd="10dp"
                             android:id="@+id/btn_more"
                             android:src="@drawable/ic_baseline_more_vert_24"
-                            />
+                            tools:ignore="ContentDescription" />
                     </RelativeLayout>
                 </androidx.appcompat.widget.Toolbar>
 
@@ -99,4 +96,3 @@
         </RelativeLayout>
 
 
-</RelativeLayout>
